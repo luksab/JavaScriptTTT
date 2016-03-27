@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tic Tac Toc Multidim</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="html-kickstart/js/kickstart.js"></script> <!-- KICKSTART -->
+<link rel="stylesheet" href="html-kickstart/css/kickstart.css" media="all" /> <!-- KICKSTART -->
+<style type="text/css">.float_left {float: left;} </style>
+</head>
+<body style="width: 100%; padding: 0;">
+<div style="width: 70%; background-color: #efefef; float: left;">Ich hab' 70%</div>
+<div id="texter" class="float_left" style="width: 28%; background-color: yellow;">Ich hab 28%</div>
+<div id="init_wrap" style="display: block; width: 250px; height: 250px;margin: auto; text-align: center;">
+<h4>How many dimensions would you like?</h4>
+<select id="sel_dims">
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+</select>
+</div>
+<div>
+
+<p>Height: <span id="w_h"></span></p>
+<p>Width: <span id="w_w"></span></p>
+</div>
+<script type="text/javascript">
+var Game = (function() {
+	var q = {},
+	dim,
+	window_width = window.innerWidth,
+	window_height = window.innerHeight;
+	
+q.init = function() {
+	$('#sel_dims').on('change', function(ev) {
+		ev.preventDefault();
+		dim = $(this).val();
+		$('#init_wrap').fadeOut();
+		$('#w_w').html(window_width);
+		$('#w_h').html(window_height);
+	});
+	window.onresize = function(ev) {
+		window_width = window.innerWidth;
+		window_height = window.innerHeight;
+		$('#w_w').html(window_width);
+		$('#w_h').html(window_height);
+		if(window_width < window_height) {
+			$('#texter').removeClass('float_left');
+		} else {
+			$('#texter').addClass('float_left');
+		}
+	};
+	
+};
+
+return q;
+
+})()
+
+$(document).ready(function() {
+	Game.init();
+});
+</script>
+
+</body>
+</html>
