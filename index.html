@@ -9,19 +9,19 @@
 <link rel="stylesheet" href="html-kickstart/css/kickstart.css" media="all" /> <!-- KICKSTART -->
 <style type="text/css">.float_left {float: left;} </style>
 </head>
-<body style="width: 100%; padding: 0;">
-<div style="width: 70%; background-color: #efefef; float: left;">Ich hab' 70%</div>
-<div id="texter" class="float_left" style="width: 28%; background-color: yellow;">Ich hab 28%</div>
+<body>
+<iframe id="spielfeld_wrap" src="frame.html" style="width: 70%; border: none; float: left;"></iframe>
+<div id="texter" class="float_left" style="width: 28%">Ich hab 28%</div>
 <div id="init_wrap" style="display: block; width: 250px; height: 250px;margin: auto; text-align: center;">
 <h4>How many dimensions would you like?</h4>
 <select id="sel_dims">
+	<option value="">Please choose..</option>
 	<option value="2">2</option>
 	<option value="3">3</option>
 	<option value="4">4</option>
 </select>
 </div>
 <div>
-
 <p>Height: <span id="w_h"></span></p>
 <p>Width: <span id="w_w"></span></p>
 </div>
@@ -33,25 +33,33 @@ var Game = (function() {
 	window_height = window.innerHeight;
 	
 q.init = function() {
+	var self = this;
 	$('#sel_dims').on('change', function(ev) {
 		ev.preventDefault();
+		
 		dim = $(this).val();
-		$('#init_wrap').fadeOut();
-		$('#w_w').html(window_width);
-		$('#w_h').html(window_height);
+		if(dim != '') {
+			$('#init_wrap').fadeOut();
+		}
 	});
+	self.makeProps();
 	window.onresize = function(ev) {
-		window_width = window.innerWidth;
+			self.makeProps();
+		};
+	
+};
+q.makeProps = function() {
+	window_width = window.innerWidth;
 		window_height = window.innerHeight;
 		$('#w_w').html(window_width);
 		$('#w_h').html(window_height);
 		if(window_width < window_height) {
 			$('#texter').removeClass('float_left');
+			$('#spielfeld_wrap').css("width", "98%");
 		} else {
 			$('#texter').addClass('float_left');
+			$('#spielfeld_wrap').css("width", "70%");
 		}
-	};
-	
 };
 
 return q;
