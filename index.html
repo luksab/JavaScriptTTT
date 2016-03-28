@@ -59,8 +59,9 @@ q.makeProps = function() {
 			$('#texter').removeClass('float_left');
 			$('#spielfeld_wrap').css("width", "98%");
 			$('#spielfeld_wrap').css("height", $("#spielfeld_wrap").css("width"));
+			$('#texter').css("width", "98%");
 		} else {
-			$('#texter').addClass('float_left');
+			$('#texter').css("width", "28%").addClass('float_left');
 			$('#spielfeld_wrap').css("width", "70%");
 			$('#spielfeld_wrap').css("height", $("#spielfeld_wrap").css("width"));
 		}
