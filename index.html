@@ -7,12 +7,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="html-kickstart/js/kickstart.js"></script> <!-- KICKSTART -->
 <link rel="stylesheet" href="html-kickstart/css/kickstart.css" media="all" /> <!-- KICKSTART -->
-<style type="text/css">.float_left {float: left;} </style>
+<style type="text/css">html,body { height: 100%; width: 100% margin: 0px; padding: 0px; }.float_left {float: left;} .w_4 {diplay: block; float: left; border: 1px solid white; width: 4%; box-sizing: border-box; height: 4%; background-color: #222222;} .w_23{ display: block; float: left; width: 23%; height: 23%; border: 1px solid blue; } .w_24 {diplay: block; float: left; width: 24%; height: 24%; border: none; background-color: black; } </style>
 </head>
 <body>
-<iframe id="spielfeld_wrap" src="frame.html" style="width: 70%; border: none; float: left;"></iframe>
-<div id="texter" class="float_left" style="width: 28%">Ich hab 28%</div>
-<div id="init_wrap" style="display: block; width: 250px; height: 250px;margin: auto; text-align: center;">
+<div id="spielfeld_wrap" style="width: 70%; height: 100%; border: none; background-color: #f1f1f1; float: left;box-sizing: border-box;">&nbsp;</div>
+<div id="texter" class="float_left" style="display: block; width: 28%; height: 100%; background-color: #e1e1e1; box-sizing: border-box; padding: 10px;"><p style="border-bottom: 1px solid black;">Game Console</p></div>
+<div id="init_wrap" style="display: block; position: fixed; top: 15px; left: 30px; width: 250px; height: 250px;margin: auto; text-align: center;">
 <h4>How many dimensions would you like?</h4>
 <select id="sel_dims">
 	<option value="">Please choose..</option>
@@ -21,14 +21,11 @@
 	<option value="4">4</option>
 </select>
 </div>
-<div>
-<p>Height: <span id="w_h"></span></p>
-<p>Width: <span id="w_w"></span></p>
-</div>
 <script type="text/javascript">
 var Game = (function() {
 	var q = {},
 	dim,
+	is_new = true,
 	window_width = window.innerWidth,
 	window_height = window.innerHeight;
 	
@@ -38,28 +35,59 @@ q.init = function() {
 		ev.preventDefault();
 		
 		dim = $(this).val();
+		console.log(dim);
 		if(dim != '') {
 			$('#init_wrap').fadeOut();
+			is_new = false;
+			self.makeProps();
+			jQuery("#spielfeld_wrap").on('click', 'div', function(ev){
+				var s = jQuery(this).attr("id").split("_");
+				alert("a: "+ a + "\nb: "+b+"\nc: "+c+"\nd: "+d);
+			});
 		}
 	});
-	self.makeProps();
 	window.onresize = function(ev) {
 			self.makeProps();
 		};
 	
 };
 q.makeProps = function() {
-	window_width = window.innerWidth;
+		window_width = window.innerWidth;
 		window_height = window.innerHeight;
-		$('#w_w').html(window_width);
-		$('#w_h').html(window_height);
+		
 		if(window_width < window_height) {
 			$('#texter').removeClass('float_left');
 			$('#spielfeld_wrap').css("width", "98%");
+			$('#spielfeld_wrap').css("height", $("#spielfeld_wrap").css("width"));
 		} else {
 			$('#texter').addClass('float_left');
 			$('#spielfeld_wrap').css("width", "70%");
+			$('#spielfeld_wrap').css("height", $("#spielfeld_wrap").css("width"));
 		}
+		
+		if(!is_new) {
+			this.makeField();
+		}
+};
+
+
+q.makeField = function() {
+console.log("entered makeField function. Dim is " + dim);
+	if(dim == 4 ) {
+		var  ar= [], dims = dim +1, a, b, c, d, html = "",x, y, z, g, i = 0;
+		
+		for (var i = 0; i < 625; i++) {
+			a = parseInt(parseInt(i%25)/5)
+			b =  parseInt(i%5)
+			c =  parseInt(parseInt(i/25)/5) 
+			d =  parseInt(parseInt(i/25)%5)
+			ar[i] = '<div class="w_4" id="k_'+a+'_'+b+'_'+c+'_'+d+'">&nbsp;</div>';
+				console.log(a + ' ' + b + ' ' + c + ' ' + d);
+		}
+		
+		$('#spielfeld_wrap').html(ar.join(""));
+	}
+		
 };
 
 return q;
