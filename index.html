@@ -42,7 +42,7 @@ q.init = function() {
 			self.makeProps();
 			jQuery("#spielfeld_wrap").on('click', 'div', function(ev){
 				var s = jQuery(this).attr("id").split("_");
-				alert("a: "+ a + "\nb: "+b+"\nc: "+c+"\nd: "+d);
+				alert("a: "+ s[1] + "\nb: "+ s[2] +"\nc: "+ s[3] +"\nd: " + s[4]);
 			});
 		}
 	});
@@ -82,9 +82,7 @@ console.log("entered makeField function. Dim is " + dim);
 			c =  parseInt(parseInt(i/25)/5) 
 			d =  parseInt(parseInt(i/25)%5)
 			ar[i] = '<div class="w_4" id="k_'+a+'_'+b+'_'+c+'_'+d+'">&nbsp;</div>';
-				console.log(a + ' ' + b + ' ' + c + ' ' + d);
 		}
-		
 		$('#spielfeld_wrap').html(ar.join(""));
 	}
 		
